@@ -1,8 +1,9 @@
 from torch.hub import load_state_dict_from_url
 import torch.nn as nn
-from transformer import TransformerClassifier
-from tokenizer import Tokenizer
-from helpers import pe_check, fc_check
+from .transformer import TransformerClassifier
+from .tokenizer import Tokenizer
+from .helpers import pe_check, fc_check
+
 
 model_urls = {
     "cct_7_3x1_32": "https://shi-labs.com/projects/cct/checkpoints/pretrained/cct_7_3x1_32_cifar10_300epochs.pth",
