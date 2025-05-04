@@ -2,9 +2,10 @@ import yaml
 from loaders import load_cifar, load_mnist
 from model.cct import cct_6_3x1_32
 import torch
+from typing import Any
 
 
-def train():
+def train(config: dict[str, Any]):
     pass
 
 
@@ -22,9 +23,27 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    # Select dataset
-    train_loader, test_loader = (
-        load_cifar() if (config["dataset"] == "cifar10") else load_mnist()
+    # Select dataset and distribute to clients
+    train_loaders, test_loaders, root_dataset = (
+        load_cifar(
+            config["batch_size"],
+            config["K"],
+            config["iid"],
+            config["alpha"],
+            config["method"] == "TrustFedKD",
+        )
+        if (config["dataset"] == "cifar10")
+        else load_mnist(
+            config["batch_size"],
+            config["K"],
+            config["iid"],
+            config["alpha"],
+            config["method"] == "TrustFedKD",
+        )
     )
 
-    train()
+    # Initialize models
+    if config["method"] == "TrustFedKD":
+        pass
+
+    train(config)
