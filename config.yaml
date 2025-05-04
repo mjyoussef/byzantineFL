@@ -1,0 +1,12 @@
+lr: 0.001
+rounds: 600
+epochs: 50
+batch_size: 64
+dataset: "cifar10"
+iid: false
+alpha: 0.1
+K: 20
+PR: 1
+M: 0.15
+method: "FedAvg" # Options: Krum, AutoGM, TrimmedMean, TrustFedKD
+attack: "Noise" # Options: Noise, ALIE, SF, Concentrate

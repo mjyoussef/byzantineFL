@@ -1,28 +1,18 @@
-import argparse
-from loaders import dataloaders_from
+import yaml
+from loaders import load_cifar, load_mnist
 from model.cct import cct_6_3x1_32
 import torch
 
 
-def main():
+def train():
     pass
 
 
 if __name__ == "__main__":
-    # Parser
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--epochs", type=int, default=10)
-    parser.add_argument("--lr", type=float, default=0.001)
-    parser.add_argument("--bs", type=int, default=64)
-    parser.add_argument("--data", type=("cifar10", "mnist"), required=True)
-    parser.add_argument("--iid", type=bool, required=True)
-    parser.add_argument("--K", type=bool, required=True, help="Number of clients")
-    parser.add_argument(
-        "--M", option=bool, required=True, help="Number of byzantine clients"
-    )
-    parser.add_argument(
-        "--algorithm", type=("FedAvg", "Krum", "AutoGM", "TrimmedMean"), required=True
-    )
+
+    # Parse YAML
+    with open("config.yaml", "r") as f:
+        config = yaml.safe_load(f)
 
     # Offload to GPU (if possible)
     if torch.cuda.is_available():
@@ -32,4 +22,9 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    main()
+    # Select dataset
+    train_loader, test_loader = (
+        load_cifar() if (config["dataset"] == "cifar10") else load_mnist()
+    )
+
+    train()
