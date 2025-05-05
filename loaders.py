@@ -2,7 +2,7 @@ import numpy as np
 from collections import defaultdict
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Dataset, Subset
-from typing import List
+from typing import Tuple, List, Union
 
 
 def _dataloaders_from(
@@ -13,7 +13,7 @@ def _dataloaders_from(
     iid: bool,
     alpha: float,
     root_data: bool,
-) -> tuple[List[DataLoader], List[DataLoader], None | DataLoader]:
+) -> Tuple[List[DataLoader], List[DataLoader], Union[DataLoader, None]]:
 
     # Root dataset is not needed for testing
     client_train_datasets = _load_splits(train, num_clients, iid, alpha, root_data)
@@ -103,7 +103,7 @@ def _load_splits(
 
 def load_cifar(
     batch_size: int, num_clients: int, iid: bool, alpha: float, root_data: bool
-) -> tuple[List[DataLoader], List[DataLoader], None | DataLoader]:
+) -> Tuple[List[DataLoader], List[DataLoader], Union[DataLoader, None]]:
     cifar_transform = transforms.Compose(
         [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
     )
@@ -128,7 +128,7 @@ def load_cifar(
 
 def load_mnist(
     batch_size: int, num_clients: int, iid: bool, alpha: float, root_data: bool
-) -> tuple[List[DataLoader], List[DataLoader], None | DataLoader]:
+) -> Tuple[List[DataLoader], List[DataLoader], Union[DataLoader, None]]:
     mnist_transform = transforms.Compose(
         [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
     )

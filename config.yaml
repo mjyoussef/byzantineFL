@@ -10,3 +10,4 @@ PR: 1.0 # Participation rate
 M: 0.15 # Percentage of byzantine clients
 method: "FedAvg" # Options: Krum, AutoGM, TrimmedMean, TrustFedKD
 attack: "Noise" # Options: Noise, ALIE, SF, Concentrate
+device: "mps" # Options: cuda, cpu, mps
